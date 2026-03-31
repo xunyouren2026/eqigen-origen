@@ -1,0 +1,27 @@
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.30.0
+diffusers>=0.24.0
+accelerate
+gradio
+fastapi
+uvicorn
+pydantic
+opencv-python
+imageio
+imageio-ffmpeg
+numpy
+tqdm
+scikit-image
+lpips
+clip
+pandas
+pyyaml
+tensorboard
+deepspeed
+torchaudio
+librosa
+# Optional physics simulators
+# warp-lang
+# taichi
+#高物理模拟关键帧
