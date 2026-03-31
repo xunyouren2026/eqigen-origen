@@ -313,3 +313,6 @@ for name, path in models.items():
     else:
         print(f"❌ {name}: 未找到")
 如果主模型缺失，日志中会出现 ⚠️ 未找到任何预训练模型 警告，必须补全才能正常生成视频。
+通过网盘分享的文件：eqigen-origen.zip
+链接: https://pan.baidu.com/s/1c027v7pWwz0egbcGF4ntRQ 提取码: 4ikf 
+实在不行就先下载这个全文件
