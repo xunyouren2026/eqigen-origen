@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>AI视频工坊 · 专业版</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", "PingFang SC", Roboto, system-ui, sans-serif;
+        background: radial-gradient(circle at 10% 20%, #0a0a1a, #0c0c1a);
+        color: #eef;
+        padding: 1rem;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1800px;
+        margin: 0 auto;
+        background: rgba(20, 22, 36, 0.75);
+        backdrop-filter: blur(12px);
+        border-radius: 1.6rem;
+        padding: 1.2rem;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4),
+          0 0 0 1px rgba(255, 255, 255, 0.05);
+      }
+      h1 {
+        text-align: center;
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, #ff8a5c, #ff4d6d, #c77dff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 1rem;
+        letter-spacing: -0.5px;
+      }
+      .row {
+        display: flex;
+        gap: 1.2rem;
+        flex-wrap: wrap;
+      }
+      .col-main {
+        flex: 1;
+        min-width: 300px;
+      }
+      .col-side {
+        flex: 2.2;
+        min-width: 340px;
+      }
+      .card {
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(4px);
+        border-radius: 1rem;
+        padding: 0.7rem 1rem;
+        margin-bottom: 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.2s;
+      }
+      .card:hover {
+        border-color: rgba(255, 107, 107, 0.4);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+      }
+      .card h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #ffd966;
+        border-left: 3px solid #ff6b6b;
+        padding-left: 8px;
+      }
+      .form-group {
+        margin-bottom: 0.5rem;
+      }
+      label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 500;
+        margin-bottom: 3px;
+        color: #ccc;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        background: rgba(10, 12, 20, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        padding: 5px 8px;
+        color: white;
+        font-size: 0.75rem;
+        transition: 0.2s;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #ff6b6b;
+        box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+      }
+      .slider-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .slider-group input {
+        flex: 1;
+      }
+      .slider-value {
+        background: #1e1e2f;
+        padding: 1px 6px;
+        border-radius: 20px;
+        font-family: monospace;
+        min-width: 36px;
+        text-align: center;
+        font-size: 0.7rem;
+      }
+      .number-input {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin: 0.3rem 0;
+      }
+      .checkbox-group label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.2rem;
+        font-weight: normal;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2px 6px;
+        border-radius: 30px;
+        font-size: 0.65rem;
+      }
+      input[type="checkbox"] {
+        width: auto;
+        accent-color: #ff6b6b;
+      }
+      .file-list {
+        margin-top: 3px;
+        font-size: 0.65rem;
+        color: #ccc;
+        word-break: break-all;
+      }
+      .file-list div {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2px 5px;
+        border-radius: 4px;
+        margin-top: 2px;
+      }
+      .file-input-wrapper {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .file-input-wrapper input {
+        flex: 1;
+      }
+      .file-input-wrapper button {
+        width: auto;
+        padding: 4px 10px;
+        background: #4a5568;
+        font-size: 0.65rem;
+        margin: 0;
+      }
+      button {
+        background: linear-gradient(100deg, #ff6b6b, #ee5a5a);
+        border: none;
+        padding: 6px 12px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 0.75rem;
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+      button:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.05);
+      }
+      button:disabled {
+        opacity: 0.5;
+        transform: none;
+        cursor: not-allowed;
+      }
+      .device-panel {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 0.6rem;
+        padding: 6px;
+        font-size: 0.65rem;
+        margin-top: 0.6rem;
+        border-left: 3px solid #ff6b6b;
+      }
+      .video-container {
+        background: #000;
+        border-radius: 0.8rem;
+        overflow: hidden;
+        margin-top: 0.5rem;
+        position: relative;
+        min-height: 280px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      video {
+        width: 100%;
+        display: block;
+        max-height: 70vh;
+        object-fit: contain;
+      }
+      .progress-area {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 12px;
+        padding: 6px;
+        margin-top: 0.6rem;
+      }
+      .progress-bar {
+        height: 4px;
+        background: #333;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        width: 0%;
+        height: 100%;
+        background: #ff6b6b;
+        transition: width 0.3s;
+      }
+      .accordion {
+        margin-top: 0.3rem;
+      }
+      .accordion-header {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 5px 10px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.75rem;
+      }
+      .accordion-header::after {
+        content: "▼";
+        font-size: 0.6rem;
+        transition: transform 0.2s;
+      }
+      .accordion.open .accordion-header::after {
+        transform: rotate(180deg);
+      }
+      .accordion-content {
+        display: none;
+        padding: 6px 4px 0 4px;
+      }
+      .accordion.open .accordion-content {
+        display: block;
+      }
+      .task-list {
+        max-height: 240px;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 5px;
+        margin-top: 6px;
+      }
+      .task-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 5px;
+        margin-bottom: 5px;
+        font-size: 0.65rem;
+      }
+      .task-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3px;
+      }
+      .task-status {
+        font-size: 0.6rem;
+        padding: 2px 5px;
+        border-radius: 20px;
+        background: #ff6b6b;
+      }
+      .task-progress-text {
+        font-size: 0.6rem;
+        color: #ddd;
+        margin-top: 2px;
+      }
+      hr {
+        margin: 0.4rem 0;
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+      .mode-switch {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-bottom: 6px;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 4px 8px;
+        border-radius: 30px;
+      }
+      .mode-switch span {
+        font-size: 0.7rem;
+      }
+      .recommend-btn {
+        background: #4ecdc4;
+        font-size: 0.65rem;
+        padding: 3px 8px;
+        width: auto;
+      }
+      .tooltip {
+        font-size: 0.6rem;
+        color: #aaa;
+        margin-left: 3px;
+        cursor: help;
+      }
+      @media (max-width: 900px) {
+        body {
+          padding: 0.8rem;
+        }
+        .container {
+          padding: 0.9rem;
+        }
+        .row {
+          flex-direction: column;
+        }
+        .col-main,
+        .col-side {
+          flex: auto;
+        }
+        video {
+          max-height: 50vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎬 AI视频工坊 · 专业版</h1>
+      <div class="row">
+        <!-- 左侧参数区 -->
+        <div class="col-main">
+          <div class="card">
+            <h3>✨ 核心参数</h3>
+            <div class="form-group">
+              <label>提示词 (Prompt)</label>
+              <textarea
+                id="prompt"
+                rows="2"
+                placeholder="例如：a cat playing with a ball in a garden, 4k, cinematic lighting"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>负面提示词</label>
+              <textarea
+                id="negative"
+                rows="1"
+                placeholder="blur, low quality, distortion, watermark"
+              ></textarea>
+            </div>
+            <div class="form-group slider-group">
+              <label>⏱️ 时长 (秒)</label>
+              <input
+                type="range"
+                id="duration"
+                min="1"
+                max="300"
+                value="5"
+                step="1"
+              />
+              <span id="durationVal" class="slider-value">5</span>
+            </div>
+            <div class="form-group">
+              <label>🎞️ 帧率 (fps)</label>
+              <div class="number-input">
+                <input
+                  type="range"
+                  id="fps"
+                  min="1"
+                  max="120"
+                  value="24"
+                  step="1"
+                />
+                <input
+                  type="number"
+                  id="fpsNum"
+                  min="1"
+                  max="120"
+                  value="24"
+                  step="1"
+                  style="width:60px"
+                />
+                <span id="fpsVal" class="slider-value">24</span>
+              </div>
+            </div>
+            <div class="form-group slider-group">
+              <label>🎚️ CFG 强度</label>
+              <input
+                type="range"
+                id="cfg_scale"
+                min="1"
+                max="15"
+                value="7.5"
+                step="0.1"
+              />
+              <span id="cfgVal" class="slider-value">7.5</span>
+            </div>
+            <div class="form-group slider-group">
+              <label>🔢 推理步数</label>
+              <input
+                type="range"
+                id="steps"
+                min="1"
+                max="100"
+                value="50"
+                step="1"
+              />
+              <span id="stepsVal" class="slider-value">50</span>
+            </div>
+            <div class="form-group">
+              <label>📺 输出分辨率</label>
+              <div class="number-input">
+                <select id="resolution">
+                  <option value="256p">256p (低显存)</option>
+                  <option value="360p">360p</option>
+                  <option value="480p">480p</option>
+                  <option value="720p">720p</option>
+                  <option value="1080p">1080p (推荐)</option>
+                  <option value="1440p (2K)">1440p (2K)</option>
+                  <option value="4K">4K (需≥16GB显存)</option>
+                  <option value="8K">8K (实验性)</option>
+                  <option value="custom">自定义宽高</option>
+                </select>
+                <div
+                  id="customRes"
+                  style="display:none; margin-top:4px; gap:4px;"
+                >
+                  <input
+                    type="number"
+                    id="customWidth"
+                    placeholder="宽度"
+                    value="1920"
+                  />
+                  <input
+                    type="number"
+                    id="customHeight"
+                    placeholder="高度"
+                    value="1080"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>📁 输出格式</label>
+              <select id="output_format">
+                <option value="mp4">MP4 (H.264)</option>
+                <option value="webm">WebM (VP9)</option>
+                <option value="gif">GIF</option>
+                <option value="avi">AVI</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>🎨 画质/质量</label>
+              <select id="quality">
+                <option value="low">低质量 (快速)</option>
+                <option value="medium" selected>中等质量</option>
+                <option value="high">高质量 (推荐)</option>
+                <option value="lossless">无损 (文件大)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 高级生成设置 (折叠) -->
+          <div class="card accordion" id="advAccordion">
+            <div class="accordion-header">⚙️ 高级生成设置</div>
+            <div class="accordion-content">
+              <div class="checkbox-group">
+                <label><input type="checkbox" id="ar_mode" /> 🔄 自回归</label>
+                <label
+                  ><input type="checkbox" id="use_memory" checked /> 🧠
+                  记忆注入</label
+                >
+                <label
+                  ><input type="checkbox" id="use_raft" /> 🌊 物理约束</label
+                >
+                <label
+                  ><input type="checkbox" id="use_routing" /> 🎯 动态路由</label
+                >
+                <label
+                  ><input type="checkbox" id="use_compression" /> 📦
+                  分层压缩</label
+                >
+                <label
+                  ><input type="checkbox" id="use_learned_compressor" /> 🔧
+                  可学习压缩器</label
+                >
+                <label
+                  ><input type="checkbox" id="use_concatenated_history" /> 🔗
+                  拼接历史</label
+                >
+                <!-- 新增：流水线并行 -->
+                <label
+                  ><input type="checkbox" id="use_pipeline" /> ⚙️
+                  流水线并行</label
+                >
+              </div>
+              <div class="checkbox-group">
+                <label
+                  ><input type="checkbox" id="temporal_smooth" /> 🎞️
+                  时序平滑</label
+                >
+                <label
+                  ><input type="checkbox" id="interpolate" /> ⚡ 帧插值</label
+                >
+                <label
+                  ><input type="checkbox" id="superres" /> 🖼️ 超分辨率</label
+                >
+                <label
+                  ><input type="checkbox" id="physics_correct" /> 🌊
+                  物理后处理</label
+                >
+              </div>
+              <div class="form-group">
+                <label>🔍 超分模型</label>
+                <select id="superres_model">
+                  <option value="RealESRGAN_x4plus"
+                    >RealESRGAN_x4plus（平衡）</option
+                  >
+                  <option value="animevideo_v3">animevideo_v3（动漫）</option>
+                  <option value="RealCugan">RealCugan（高画质）</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>🧵 超分并行进程数 (0=串行)</label>
+                <input
+                  type="number"
+                  id="superres_workers"
+                  min="0"
+                  max="16"
+                  value="4"
+                  step="1"
+                />
+                <div class="tooltip">多进程加速，注意显存占用</div>
+              </div>
+              <div class="form-group">
+                <label>✨ 精炼步数 (0=不精炼)</label>
+                <input
+                  type="range"
+                  id="refine_steps"
+                  min="0"
+                  max="4"
+                  value="0"
+                  step="1"
+                />
+                <span id="refine_steps_val">0</span>
+              </div>
+              <div class="form-group">
+                <label>💧 水印文字</label>
+                <input
+                  type="text"
+                  id="watermark"
+                  placeholder="AI Video"
+                  value="AI Video"
+                />
+              </div>
+              <div class="form-group">
+                <label>🎵 背景音乐 (URL或文件)</label>
+                <input type="text" id="bgm_url" placeholder="音频URL" />
+                <input
+                  type="file"
+                  id="bgm_file"
+                  accept="audio/*"
+                  style="margin-top:3px"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- 多模态输入折叠 -->
+          <div class="card accordion" id="mmAccordion">
+            <div class="accordion-header">📎 多模态输入</div>
+            <div class="accordion-content">
+              <div class="form-group">
+                <label>📷 参考图片</label>
+                <input type="file" id="ref_images" multiple accept="image/*" />
+                <div id="ref_images_list" class="file-list"></div>
+              </div>
+              <div class="form-group">
+                <label>🎥 参考视频</label>
+                <input type="file" id="ref_videos" multiple accept="video/*" />
+                <div id="ref_videos_list" class="file-list"></div>
+              </div>
+              <div class="form-group">
+                <label>🎵 音频文件</label>
+                <input type="file" id="audio_files" multiple accept="audio/*" />
+                <div id="audio_files_list" class="file-list"></div>
+              </div>
+              <div class="form-group">
+                <label>📝 故事创意 → 镜头脚本</label>
+                <textarea
+                  id="story_input"
+                  rows="2"
+                  placeholder="输入故事梗概..."
+                ></textarea>
+                <button
+                  type="button"
+                  id="generate_script_btn"
+                  style="margin-top:4px; background:#4ecdc4;"
+                >
+                  ✨ 自动生成脚本
+                </button>
+              </div>
+              <div class="form-group">
+                <label>📄 镜头脚本 (JSON)</label>
+                <input type="file" id="lens_script" accept=".json" />
+                <div id="lens_script_name" class="file-list"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 批量生成 -->
+          <div class="card">
+            <h3>📦 批量生成 & 任务面板</h3>
+            <div class="form-group">
+              <label>批量提示词 (每行一个)</label>
+              <textarea
+                id="batch_prompts"
+                rows="2"
+                placeholder="a cat\na dog\na bird"
+              ></textarea>
+              <button
+                type="button"
+                id="batchGenerateBtn"
+                style="margin-top:3px; background:#6c5ce7;"
+              >
+                🚀 批量生成
+              </button>
+            </div>
+            <div id="taskPanel">
+              <div class="task-list" id="taskList">
+                <div style="text-align:center; color:#aaa;">暂无任务</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 模型与库 -->
+          <div class="card">
+            <h3>📦 模型与库</h3>
+            <div class="form-group">
+              <label>模型类型</label>
+              <select id="model_type">
+                <option value="dit">DiT (自研)</option>
+                <option value="wan21">Wan2.1 (阿里)</option>
+                <option value="cogvideo">CogVideo (智谱)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>预训练模型路径</label>
+              <div class="file-input-wrapper">
+                <input
+                  type="text"
+                  id="pretrained_path"
+                  value="./models/model.safetensors"
+                />
+                <button
+                  type="button"
+                  class="select-file-btn"
+                  data-target="pretrained_path"
+                >
+                  选择文件
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>VAE 路径</label>
+              <div class="file-input-wrapper">
+                <input type="text" id="vae_path" value="./models/vae" />
+                <button
+                  type="button"
+                  class="select-file-btn"
+                  data-target="vae_path"
+                >
+                  选择目录
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>文本编码器路径</label>
+              <div class="file-input-wrapper">
+                <input
+                  type="text"
+                  id="text_encoder_path"
+                  value="./models/clip"
+                />
+                <button
+                  type="button"
+                  class="select-file-btn"
+                  data-target="text_encoder_path"
+                >
+                  选择目录
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🎨 风格与镜头</h3>
+            <div class="form-group">
+              <label>风格化</label>
+              <select id="style">
+                <option value="无">无</option>
+                <option value="cartoon">卡通</option>
+                <option value="oil">油画</option>
+                <option value="sketch">素描</option>
+                <option value="sepia">怀旧</option>
+                <option value="pixelate">像素风</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>镜头运动</label>
+              <select id="camera">
+                <option value="无">无</option>
+                <option value="pan">左右平移</option>
+                <option value="tilt">上下倾斜</option>
+                <option value="zoom">推拉</option>
+                <option value="rotate">旋转</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>预设配置</label>
+              <select id="preset">
+                <option value="256p_30fps">256p 30fps (快速)</option>
+                <option value="512p_30fps">512p 30fps (平衡)</option>
+                <option value="720p_30fps">720p 30fps</option>
+                <option value="1080p_30fps">1080p 30fps</option>
+                <option value="2K_30fps">2K 30fps</option>
+                <option value="4K_30fps">4K 30fps</option>
+                <option value="1080p_60fps">1080p 60fps (流畅)</option>
+                <option value="4K_60fps">4K 60fps (高帧率)</option>
+                <option value="default">默认 (1080p 24fps)</option>
+                <option value="fast">快速生成 (256p 8fps)</option>
+                <option value="high_quality">高质量 (4K 60fps)</option>
+                <option value="cinematic">电影感 (1080p 24fps)</option>
+              </select>
+              <button
+                type="button"
+                id="applyPresetBtn"
+                style="margin-top:3px; background:#00cec9;"
+              >
+                应用预设
+              </button>
+            </div>
+          </div>
+
+          <div class="device-panel" id="deviceInfo">💡 设备信息: 加载中...</div>
+          <button id="generateBtn">🚀 开始生成视频</button>
+        </div>
+
+        <!-- 右侧预览区 -->
+        <div class="col-side">
+          <div class="card">
+            <h3>📺 预览结果</h3>
+            <div class="video-container">
+              <video id="outputVideo" controls style="width:100%"></video>
+            </div>
+            <div id="progressArea" style="display:none;" class="progress-area">
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div id="progressText" style="text-align:center; margin-top:4px;">
+                等待任务...
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>🔧 配置管理</h3>
+            <div class="form-group" style="display:flex; gap:6px;">
+              <button
+                type="button"
+                id="exportConfigBtn"
+                style="background:#0984e3;"
+              >
+                导出配置
+              </button>
+              <input
+                type="file"
+                id="importConfigFile"
+                accept=".json"
+                style="display:none"
+              />
+              <button
+                type="button"
+                id="importConfigBtn"
+                style="background:#0984e3;"
+              >
+                导入配置
+              </button>
+            </div>
+            <div class="mode-switch">
+              <span>模式：</span>
+              <label
+                ><input type="radio" name="mode" value="manual" checked />
+                普通</label
+              >
+              <label
+                ><input type="radio" name="mode" value="smart" /> 智能</label
+              >
+              <button type="button" id="applySmartBtn" class="recommend-btn">
+                ✨ 推荐
+              </button>
+              <button type="button" id="enableAllBtn" class="recommend-btn">
+                🚀 全开
+              </button>
+            </div>
+            <div class="checkbox-group">
+              <label
+                ><input type="checkbox" id="use_turboquant" checked /> 🧩
+                TurboQuant</label
+              >
+              <label
+                ><input type="checkbox" id="distill_mode" /> ⚡ 二次蒸馏</label
+              >
+              <label
+                ><input type="checkbox" id="use_pyramid" /> 🏔️ 金字塔采样</label
+              >
+              <label
+                ><input type="checkbox" id="use_parallel_tile" /> 🚀 并行
+                tile</label
+              >
+              <label
+                ><input type="checkbox" id="use_tensorrt" /> ⚙️ TensorRT</label
+              >
+            </div>
+            <div class="form-group" id="tileBatchGroup" style="display: none;">
+              <label>并行 tile 数量</label>
+              <input
+                type="number"
+                id="tile_batch_size"
+                min="1"
+                max="16"
+                value="4"
+                step="1"
+              />
+            </div>
+            <div class="form-group" id="tensorrtGroup" style="display: none;">
+              <label>TensorRT 引擎路径</label>
+              <div class="file-input-wrapper">
+                <input
+                  type="text"
+                  id="tensorrt_engine_path"
+                  value="model.trt"
+                />
+                <button
+                  type="button"
+                  class="select-file-btn"
+                  data-target="tensorrt_engine_path"
+                >
+                  选择文件
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        style="background:#2a2418; padding:5px; border-radius:20px; margin-top:12px; font-size:0.6rem; text-align:center;"
+      >
+        ⚠️
+        高分辨率/长视频需充足显存；蒸馏模式需模型支持；生成耗时与分辨率、步数成正比。
+      </div>
+    </div>
+
+    <script>
+      // DOM 元素绑定
+      const dom = {
+        prompt: document.getElementById("prompt"),
+        negative: document.getElementById("negative"),
+        duration: document.getElementById("duration"),
+        durationVal: document.getElementById("durationVal"),
+        fps: document.getElementById("fps"),
+        fpsNum: document.getElementById("fpsNum"),
+        fpsVal: document.getElementById("fpsVal"),
+        cfg: document.getElementById("cfg_scale"),
+        cfgVal: document.getElementById("cfgVal"),
+        steps: document.getElementById("steps"),
+        stepsVal: document.getElementById("stepsVal"),
+        resolution: document.getElementById("resolution"),
+        customResDiv: document.getElementById("customRes"),
+        customWidth: document.getElementById("customWidth"),
+        customHeight: document.getElementById("customHeight"),
+        outputFormat: document.getElementById("output_format"),
+        quality: document.getElementById("quality"),
+        arMode: document.getElementById("ar_mode"),
+        useMemory: document.getElementById("use_memory"),
+        distillMode: document.getElementById("distill_mode"),
+        useRaft: document.getElementById("use_raft"),
+        useRouting: document.getElementById("use_routing"),
+        useCompression: document.getElementById("use_compression"),
+        usePyramid: document.getElementById("use_pyramid"),
+        useParallelTile: document.getElementById("use_parallel_tile"),
+        useTensorRT: document.getElementById("use_tensorrt"),
+        physicsCorrect: document.getElementById("physics_correct"),
+        tileBatchSize: document.getElementById("tile_batch_size"),
+        tensorrtEnginePath: document.getElementById("tensorrt_engine_path"),
+        style: document.getElementById("style"),
+        camera: document.getElementById("camera"),
+        useLearnedComp: document.getElementById("use_learned_compressor"),
+        useConcatHistory: document.getElementById("use_concatenated_history"),
+        temporalSmooth: document.getElementById("temporal_smooth"),
+        interpolate: document.getElementById("interpolate"),
+        superres: document.getElementById("superres"),
+        watermark: document.getElementById("watermark"),
+        pretrainedPath: document.getElementById("pretrained_path"),
+        bgmUrl: document.getElementById("bgm_url"),
+        bgmFile: document.getElementById("bgm_file"),
+        refImages: document.getElementById("ref_images"),
+        refVideos: document.getElementById("ref_videos"),
+        audioFiles: document.getElementById("audio_files"),
+        storyInput: document.getElementById("story_input"),
+        generateScriptBtn: document.getElementById("generate_script_btn"),
+        lensScript: document.getElementById("lens_script"),
+        batchPrompts: document.getElementById("batch_prompts"),
+        batchGenerateBtn: document.getElementById("batchGenerateBtn"),
+        taskList: document.getElementById("taskList"),
+        generateBtn: document.getElementById("generateBtn"),
+        outputVideo: document.getElementById("outputVideo"),
+        progressArea: document.getElementById("progressArea"),
+        progressFill: document.getElementById("progressFill"),
+        progressText: document.getElementById("progressText"),
+        deviceInfo: document.getElementById("deviceInfo"),
+        preset: document.getElementById("preset"),
+        applyPresetBtn: document.getElementById("applyPresetBtn"),
+        exportConfigBtn: document.getElementById("exportConfigBtn"),
+        importConfigBtn: document.getElementById("importConfigBtn"),
+        importConfigFile: document.getElementById("importConfigFile"),
+        applySmartBtn: document.getElementById("applySmartBtn"),
+        enableAllBtn: document.getElementById("enableAllBtn"),
+        useTurboquant: document.getElementById("use_turboquant"),
+        modelType: document.getElementById("model_type"),
+        vaePath: document.getElementById("vae_path"),
+        textEncoderPath: document.getElementById("text_encoder_path"),
+        superresModel: document.getElementById("superres_model"),
+        superresWorkers: document.getElementById("superres_workers"),
+        refineSteps: document.getElementById("refine_steps"),
+        refineStepsVal: document.getElementById("refine_steps_val"),
+        usePipeline: document.getElementById("use_pipeline")
+      };
+
+      // 文件选择按钮
+      document.querySelectorAll(".select-file-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          const targetInput = document.getElementById(targetId);
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          if (targetId === "vae_path" || targetId === "text_encoder_path") {
+            fileInput.webkitdirectory = true;
+            fileInput.directory = true;
+          }
+          fileInput.onchange = e => {
+            const file = e.target.files[0];
+            if (file) {
+              let path = file.webkitRelativePath || file.name;
+              if (file.webkitRelativePath)
+                path = file.webkitRelativePath.split("/")[0];
+              else path = file.path || file.name;
+              targetInput.value = path;
+            }
+          };
+          fileInput.click();
+        });
+      });
+
+      // 滑动条初始化
+      function initSlider(slider, span) {
+        span.innerText = slider.value;
+        slider.addEventListener("input", () => (span.innerText = slider.value));
+      }
+      initSlider(dom.duration, dom.durationVal);
+      initSlider(dom.cfg, dom.cfgVal);
+      initSlider(dom.steps, dom.stepsVal);
+      dom.fps.addEventListener("input", () => {
+        dom.fpsNum.value = dom.fps.value;
+        dom.fpsVal.innerText = dom.fps.value;
+      });
+      dom.fpsNum.addEventListener("input", () => {
+        dom.fps.value = dom.fpsNum.value;
+        dom.fpsVal.innerText = dom.fpsNum.value;
+      });
+      dom.fpsVal.innerText = dom.fps.value;
+      dom.resolution.addEventListener("change", () => {
+        dom.customResDiv.style.display =
+          dom.resolution.value === "custom" ? "flex" : "none";
+      });
+
+      // 蒸馏模式确认弹窗 + 自动设步数
+      dom.distillMode.addEventListener("change", () => {
+        if (dom.distillMode.checked) {
+          if (
+            !confirm(
+              "⚠️ 蒸馏模式需要模型经过蒸馏训练（如 DMD 或 TMD）。如果使用未蒸馏的模型，画质会严重下降。确认要继续吗？"
+            )
+          ) {
+            dom.distillMode.checked = false;
+          } else if (parseInt(dom.steps.value) > 4) {
+            dom.steps.value = 4;
+            dom.stepsVal.innerText = "4";
+          }
+        } else {
+          // 若取消蒸馏，可恢复原步数（但原步数可能已丢失，简单处理为恢复50）
+          if (parseInt(dom.steps.value) < 50) {
+            dom.steps.value = 50;
+            dom.stepsVal.innerText = "50";
+          }
+        }
+      });
+
+      dom.refineSteps.addEventListener("input", () => {
+        dom.refineStepsVal.innerText = dom.refineSteps.value;
+      });
+      dom.refineStepsVal.innerText = dom.refineSteps.value;
+
+      // 文件列表预览
+      function updateFileList(input, listEl) {
+        listEl.innerHTML = "";
+        for (let file of input.files) {
+          let div = document.createElement("div");
+          div.textContent = file.name;
+          listEl.appendChild(div);
+        }
+      }
+      dom.refImages.addEventListener("change", () =>
+        updateFileList(
+          dom.refImages,
+          document.getElementById("ref_images_list")
+        )
+      );
+      dom.refVideos.addEventListener("change", () =>
+        updateFileList(
+          dom.refVideos,
+          document.getElementById("ref_videos_list")
+        )
+      );
+      dom.audioFiles.addEventListener("change", () =>
+        updateFileList(
+          dom.audioFiles,
+          document.getElementById("audio_files_list")
+        )
+      );
+      dom.lensScript.addEventListener("change", () => {
+        const list = document.getElementById("lens_script_name");
+        list.innerHTML = dom.lensScript.files.length
+          ? dom.lensScript.files[0].name
+          : "";
+      });
+
+      // 设备信息获取
+      let gpuInfo = { hasGPU: false, vramGB: 0 };
+      async function fetchDeviceInfo() {
+        try {
+          const res = await fetch("/health");
+          if (res.ok) {
+            const data = await res.json();
+            const ready = data.inferencer_ready;
+            gpuInfo.hasGPU = ready;
+            gpuInfo.vramGB = ready ? 24 : 0;
+            dom.deviceInfo.innerHTML = `💻 运行设备: <strong>${
+              ready ? "GPU (CUDA)" : "CPU"
+            }</strong><br>${
+              ready
+                ? `✅ GPU 加速已启用，检测到显存约 ${gpuInfo.vramGB} GB`
+                : "⚠️ CPU 模式，生成速度极慢，建议使用 NVIDIA GPU"
+            }`;
+          } else {
+            dom.deviceInfo.innerHTML =
+              "⚠️ 无法连接后端服务，请确保 API 已启动 (python main.py --mode api)";
+          }
+        } catch (e) {
+          dom.deviceInfo.innerHTML =
+            "❌ 后端连接失败，请检查服务是否运行在 http://127.0.0.1:8000";
+        }
+      }
+      fetchDeviceInfo();
+
+      // 折叠面板
+      document.querySelectorAll(".accordion-header").forEach(header => {
+        header.addEventListener("click", () =>
+          header.closest(".accordion").classList.toggle("open")
+        );
+      });
+
+      // 智能推荐逻辑（根据模型类型判断是否推荐蒸馏，并推荐流水线并行）
+      function smartRecommend() {
+        const resolution = dom.resolution.value;
+        const duration = parseFloat(dom.duration.value);
+        const vram = gpuInfo.vramGB;
+        const modelType = dom.modelType.value;
+        // 只有自研 DiT 可能经过蒸馏，其他模型默认不推荐蒸馏
+        const recommendDistill = modelType === "dit";
+        let rec = {
+          use_turboquant: true,
+          distill_mode: recommendDistill,
+          use_pyramid: false,
+          use_parallel_tile: false,
+          use_tensorrt: false,
+          physics_correct: false,
+          temporal_smooth: false,
+          interpolate: false,
+          superres: false,
+          tile_batch_size: 4,
+          steps: recommendDistill ? 4 : 50,
+          superres_model: "RealESRGAN_x4plus",
+          superres_workers: 4,
+          refine_steps: 0,
+          use_pipeline: false // 默认关闭
+        };
+        if (
+          resolution.includes("4K") ||
+          resolution.includes("8K") ||
+          duration > 60
+        ) {
+          rec.use_pyramid = true;
+          rec.use_parallel_tile = true;
+          rec.use_pipeline = true; // 长视频或高分辨率时推荐开启流水线并行
+          rec.tile_batch_size = vram >= 16 ? 8 : 4;
+          rec.superres_workers = vram >= 16 ? 8 : 4;
+          if (dom.quality.value === "high" || dom.quality.value === "lossless")
+            rec.refine_steps = 2;
+        }
+        if (vram >= 20 && rec.use_parallel_tile) rec.tile_batch_size = 12;
+        if (dom.tensorrtEnginePath.value.trim() !== "") rec.use_tensorrt = true;
+        if (parseInt(dom.fps.value) >= 60) rec.interpolate = true;
+        if (dom.quality.value === "high" || dom.quality.value === "lossless")
+          rec.physics_correct = true;
+        if (resolution.includes("anime") || dom.style.value === "cartoon")
+          rec.superres_model = "animevideo_v3";
+        return rec;
+      }
+      function applySmartRecommend() {
+        const rec = smartRecommend();
+        dom.useTurboquant.checked = rec.use_turboquant;
+        dom.distillMode.checked = rec.distill_mode;
+        dom.usePyramid.checked = rec.use_pyramid;
+        dom.useParallelTile.checked = rec.use_parallel_tile;
+        dom.useTensorRT.checked = rec.use_tensorrt;
+        dom.physicsCorrect.checked = rec.physics_correct;
+        dom.temporalSmooth.checked = rec.temporal_smooth;
+        dom.interpolate.checked = rec.interpolate;
+        dom.superres.checked = rec.superres;
+        dom.tileBatchSize.value = rec.tile_batch_size;
+        dom.superresModel.value = rec.superres_model;
+        dom.superresWorkers.value = rec.superres_workers;
+        dom.refineSteps.value = rec.refine_steps;
+        dom.refineStepsVal.innerText = rec.refine_steps;
+        dom.usePipeline.checked = rec.use_pipeline; // 应用流水线并行推荐
+        if (rec.distill_mode && parseInt(dom.steps.value) > 4) {
+          dom.steps.value = rec.steps;
+          dom.stepsVal.innerText = rec.steps;
+        } else if (!rec.distill_mode && parseInt(dom.steps.value) < 50) {
+          // 如果不推荐蒸馏，步数恢复为50
+          dom.steps.value = 50;
+          dom.stepsVal.innerText = "50";
+        }
+        toggleAdvanced();
+      }
+      function enableAll() {
+        dom.useTurboquant.checked = true;
+        dom.distillMode.checked = true;
+        dom.usePyramid.checked = true;
+        dom.useParallelTile.checked = true;
+        dom.useTensorRT.checked = dom.tensorrtEnginePath.value.trim() !== "";
+        dom.physicsCorrect.checked = true;
+        dom.temporalSmooth.checked = true;
+        dom.interpolate.checked = true;
+        dom.superres.checked = true;
+        dom.tileBatchSize.value = 8;
+        dom.superresModel.value = "RealESRGAN_x4plus";
+        dom.superresWorkers.value = 8;
+        dom.refineSteps.value = 2;
+        dom.refineStepsVal.innerText = "2";
+        dom.usePipeline.checked = true; // 全开时也开启流水线并行
+        if (dom.distillMode.checked && parseInt(dom.steps.value) > 4) {
+          dom.steps.value = 4;
+          dom.stepsVal.innerText = "4";
+        }
+        toggleAdvanced();
+      }
+      function toggleAdvanced() {
+        const showTile = dom.useParallelTile.checked;
+        const showTensorRT = dom.useTensorRT.checked;
+        document.getElementById("tileBatchGroup").style.display = showTile
+          ? "block"
+          : "none";
+        document.getElementById("tensorrtGroup").style.display = showTensorRT
+          ? "block"
+          : "none";
+      }
+      dom.useParallelTile.addEventListener("change", toggleAdvanced);
+      dom.useTensorRT.addEventListener("change", toggleAdvanced);
+      toggleAdvanced();
+
+      document.querySelectorAll('input[name="mode"]').forEach(radio => {
+        radio.addEventListener("change", () => {
+          if (radio.value === "smart") applySmartRecommend();
+        });
+      });
+      dom.applySmartBtn.addEventListener("click", applySmartRecommend);
+      dom.enableAllBtn.addEventListener("click", enableAll);
+
+      // 预设配置
+      const presets = {
+        "256p_30fps": {
+          resolution: "256p",
+          fps: 30,
+          steps: 20,
+          cfg_scale: 5.0,
+          quality: "low",
+          style: "无",
+          camera: "无",
+          use_memory: false,
+          use_pyramid: false
+        },
+        "512p_30fps": {
+          resolution: "480p",
+          fps: 30,
+          steps: 30,
+          cfg_scale: 6.0,
+          quality: "medium",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: false
+        },
+        "720p_30fps": {
+          resolution: "720p",
+          fps: 30,
+          steps: 40,
+          cfg_scale: 7.0,
+          quality: "medium",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: false
+        },
+        "1080p_30fps": {
+          resolution: "1080p",
+          fps: 30,
+          steps: 50,
+          cfg_scale: 7.5,
+          quality: "high",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: true
+        },
+        "2K_30fps": {
+          resolution: "1440p (2K)",
+          fps: 30,
+          steps: 60,
+          cfg_scale: 8.0,
+          quality: "high",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: true
+        },
+        "4K_30fps": {
+          resolution: "4K",
+          fps: 30,
+          steps: 70,
+          cfg_scale: 8.5,
+          quality: "high",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: true
+        },
+        "1080p_60fps": {
+          resolution: "1080p",
+          fps: 60,
+          steps: 60,
+          cfg_scale: 7.5,
+          quality: "high",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: true
+        },
+        "4K_60fps": {
+          resolution: "4K",
+          fps: 60,
+          steps: 80,
+          cfg_scale: 9.0,
+          quality: "high",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: true
+        },
+        default: {
+          resolution: "1080p",
+          fps: 24,
+          steps: 50,
+          cfg_scale: 7.5,
+          quality: "medium",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: false
+        },
+        fast: {
+          resolution: "256p",
+          fps: 8,
+          steps: 20,
+          cfg_scale: 5,
+          quality: "low",
+          style: "无",
+          camera: "无",
+          use_memory: false,
+          use_pyramid: false
+        },
+        high_quality: {
+          resolution: "4K",
+          fps: 60,
+          steps: 80,
+          cfg_scale: 9,
+          quality: "high",
+          style: "无",
+          camera: "无",
+          use_memory: true,
+          use_pyramid: true
+        },
+        cinematic: {
+          resolution: "1080p",
+          fps: 24,
+          steps: 60,
+          cfg_scale: 8,
+          quality: "high",
+          style: "sepia",
+          camera: "pan",
+          use_memory: true,
+          use_pyramid: true
+        }
+      };
+      dom.applyPresetBtn.addEventListener("click", () => {
+        const preset = presets[dom.preset.value];
+        if (!preset) return;
+        dom.resolution.value = preset.resolution;
+        dom.resolution.dispatchEvent(new Event("change"));
+        dom.fps.value = preset.fps;
+        dom.fpsNum.value = preset.fps;
+        dom.fps.dispatchEvent(new Event("input"));
+        dom.steps.value = preset.steps;
+        dom.stepsVal.innerText = preset.steps;
+        dom.cfg.value = preset.cfg_scale;
+        dom.cfgVal.innerText = preset.cfg_scale;
+        dom.quality.value = preset.quality;
+        dom.style.value = preset.style;
+        dom.camera.value = preset.camera;
+        dom.useMemory.checked = preset.use_memory;
+        dom.usePyramid.checked = preset.use_pyramid;
+        // 注意：预设配置中未包含流水线并行，保持原状态
+        if (dom.distillMode.checked && parseInt(dom.steps.value) > 4) {
+          dom.steps.value = 4;
+          dom.stepsVal.innerText = "4";
+        }
+      });
+
+      // 导出/导入配置
+      dom.exportConfigBtn.addEventListener("click", () => {
+        const config = {
+          prompt: dom.prompt.value,
+          negative: dom.negative.value,
+          duration: parseFloat(dom.duration.value),
+          fps: parseInt(dom.fps.value),
+          cfg_scale: parseFloat(dom.cfg.value),
+          steps: parseInt(dom.steps.value),
+          resolution: dom.resolution.value,
+          custom_width: dom.customWidth.value,
+          custom_height: dom.customHeight.value,
+          output_format: dom.outputFormat.value,
+          quality: dom.quality.value,
+          ar_mode: dom.arMode.checked,
+          use_memory: dom.useMemory.checked,
+          distill_mode: dom.distillMode.checked,
+          use_raft: dom.useRaft.checked,
+          use_routing: dom.useRouting.checked,
+          use_compression: dom.useCompression.checked,
+          use_pyramid: dom.usePyramid.checked,
+          use_parallel_tile: dom.useParallelTile.checked,
+          use_tensorrt: dom.useTensorRT.checked,
+          physics_correct: dom.physicsCorrect.checked,
+          tile_batch_size: parseInt(dom.tileBatchSize.value),
+          tensorrt_engine_path: dom.tensorrtEnginePath.value,
+          style: dom.style.value,
+          camera: dom.camera.value,
+          use_learned_compressor: dom.useLearnedComp.checked,
+          use_concatenated_history: dom.useConcatHistory.checked,
+          watermark: dom.watermark.value,
+          pretrained_path: dom.pretrainedPath.value,
+          temporal_smooth: dom.temporalSmooth.checked,
+          interpolate: dom.interpolate.checked,
+          superres: dom.superres.checked,
+          bgm_url: dom.bgmUrl.value,
+          use_turboquant: dom.useTurboquant.checked,
+          model_type: dom.modelType.value,
+          vae_path: dom.vaePath.value,
+          text_encoder_path: dom.textEncoderPath.value,
+          superres_model: dom.superresModel.value,
+          superres_workers: parseInt(dom.superresWorkers.value),
+          refine_steps: parseInt(dom.refineSteps.value),
+          use_pipeline: dom.usePipeline.checked // 导出流水线并行标志
+        };
+        const dataStr = JSON.stringify(config, null, 2);
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "video_config.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+      dom.importConfigBtn.addEventListener("click", () =>
+        dom.importConfigFile.click()
+      );
+      dom.importConfigFile.addEventListener("change", e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          try {
+            const config = JSON.parse(ev.target.result);
+            dom.prompt.value = config.prompt || "";
+            dom.negative.value = config.negative || "";
+            dom.duration.value = config.duration || 5;
+            dom.durationVal.innerText = dom.duration.value;
+            dom.fps.value = config.fps || 24;
+            dom.fpsNum.value = config.fps;
+            dom.fps.dispatchEvent(new Event("input"));
+            dom.cfg.value = config.cfg_scale || 7.5;
+            dom.cfgVal.innerText = dom.cfg.value;
+            dom.steps.value = config.steps || 50;
+            dom.stepsVal.innerText = dom.steps.value;
+            dom.resolution.value = config.resolution || "1080p";
+            dom.resolution.dispatchEvent(new Event("change"));
+            dom.customWidth.value = config.custom_width || 1920;
+            dom.customHeight.value = config.custom_height || 1080;
+            dom.outputFormat.value = config.output_format || "mp4";
+            dom.quality.value = config.quality || "medium";
+            dom.arMode.checked = config.ar_mode || false;
+            dom.useMemory.checked =
+              config.use_memory !== undefined ? config.use_memory : true;
+            dom.distillMode.checked = config.distill_mode || false;
+            dom.useRaft.checked = config.use_raft || false;
+            dom.useRouting.checked = config.use_routing || false;
+            dom.useCompression.checked = config.use_compression || false;
+            dom.usePyramid.checked = config.use_pyramid || false;
+            dom.useParallelTile.checked = config.use_parallel_tile || false;
+            dom.useTensorRT.checked = config.use_tensorrt || false;
+            dom.physicsCorrect.checked = config.physics_correct || false;
+            dom.tileBatchSize.value = config.tile_batch_size || 4;
+            dom.tensorrtEnginePath.value =
+              config.tensorrt_engine_path || "model.trt";
+            dom.style.value = config.style || "无";
+            dom.camera.value = config.camera || "无";
+            dom.useLearnedComp.checked = config.use_learned_compressor || false;
+            dom.useConcatHistory.checked =
+              config.use_concatenated_history || false;
+            dom.watermark.value = config.watermark || "AI Video";
+            dom.pretrainedPath.value =
+              config.pretrained_path || "./models/model.safetensors";
+            dom.temporalSmooth.checked = config.temporal_smooth || false;
+            dom.interpolate.checked = config.interpolate || false;
+            dom.superres.checked = config.superres || false;
+            dom.bgmUrl.value = config.bgm_url || "";
+            dom.useTurboquant.checked =
+              config.use_turboquant !== undefined
+                ? config.use_turboquant
+                : true;
+            dom.modelType.value = config.model_type || "dit";
+            dom.vaePath.value = config.vae_path || "./models/vae";
+            dom.textEncoderPath.value =
+              config.text_encoder_path || "./models/clip";
+            dom.superresModel.value =
+              config.superres_model || "RealESRGAN_x4plus";
+            dom.superresWorkers.value = config.superres_workers || 4;
+            dom.refineSteps.value = config.refine_steps || 0;
+            dom.refineStepsVal.innerText = dom.refineSteps.value;
+            dom.usePipeline.checked = config.use_pipeline || false; // 导入流水线并行标志
+            if (dom.distillMode.checked && parseInt(dom.steps.value) > 4) {
+              dom.steps.value = 4;
+              dom.stepsVal.innerText = "4";
+            }
+            toggleAdvanced();
+            alert("配置导入成功");
+          } catch (err) {
+            alert("配置文件解析失败");
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      // 脚本生成（模拟API）
+      dom.generateScriptBtn.addEventListener("click", async () => {
+        const story = dom.storyInput.value.trim();
+        if (!story) {
+          alert("请先输入故事创意");
+          return;
+        }
+        dom.generateScriptBtn.disabled = true;
+        dom.generateScriptBtn.textContent = "⏳ 生成中...";
+        try {
+          const formData = new FormData();
+          formData.append("story", story);
+          const res = await fetch("/generate_script", {
+            method: "POST",
+            body: formData
+          });
+          if (!res.ok) throw new Error(await res.text());
+          const script = await res.json();
+          const blob = new Blob([JSON.stringify(script, null, 2)], {
+            type: "application/json"
+          });
+          const file = new File([blob], "auto_script.json", {
+            type: "application/json"
+          });
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          dom.lensScript.files = dt.files;
+          dom.lensScript.dispatchEvent(new Event("change"));
+          alert("✅ 脚本生成成功，已自动填入镜头脚本");
+        } catch (err) {
+          alert("脚本生成失败: " + err.message);
+        } finally {
+          dom.generateScriptBtn.disabled = false;
+          dom.generateScriptBtn.textContent = "✨ 自动生成脚本";
+        }
+      });
+
+      // 任务管理
+      let tasks = {};
+      const TASKS_STORAGE_KEY = "ai_video_tasks";
+      function saveTasksToStorage() {
+        const tasksToSave = {};
+        for (const [id, t] of Object.entries(tasks))
+          tasksToSave[id] = {
+            status: t.status,
+            progress: t.progress,
+            outputUrl: t.outputUrl ? "cached" : null,
+            startTime: t.startTime,
+            estimatedRemaining: t.estimatedRemaining,
+            speed: t.speed
+          };
+        localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasksToSave));
+      }
+      function loadTasksFromStorage() {
+        const stored = localStorage.getItem(TASKS_STORAGE_KEY);
+        if (stored) {
+          const loaded = JSON.parse(stored);
+          for (const [id, t] of Object.entries(loaded)) {
+            if (t.status !== "completed" && t.status !== "error")
+              tasks[id] = {
+                ...t,
+                status: "pending",
+                progress: t.progress || 0
+              };
+            else if (t.status === "completed")
+              tasks[id] = { ...t, outputUrl: null };
+            else tasks[id] = t;
+          }
+          renderTaskList();
+          for (const id of Object.keys(tasks))
+            if (tasks[id].status === "pending") pollTask(id);
+        }
+      }
+      function addTask(taskId) {
+        tasks[taskId] = {
+          status: "pending",
+          progress: 0,
+          startTime: Date.now(),
+          estimatedRemaining: null,
+          speed: null
+        };
+        renderTaskList();
+        saveTasksToStorage();
+        pollTask(taskId);
+      }
+      function updateTask(taskId, update) {
+        if (tasks[taskId]) {
+          Object.assign(tasks[taskId], update);
+          if (update.progress !== undefined && tasks[taskId].startTime) {
+            const elapsed = (Date.now() - tasks[taskId].startTime) / 1000;
+            const speed = update.progress / 100 / elapsed;
+            tasks[taskId].speed = speed > 0 ? speed : null;
+            const remainingPercent = 1 - update.progress / 100;
+            tasks[taskId].estimatedRemaining =
+              remainingPercent > 0 ? remainingPercent / speed : null;
+          }
+        }
+        renderTaskList();
+        saveTasksToStorage();
+      }
+      function renderTaskList() {
+        dom.taskList.innerHTML = "";
+        const taskIds = Object.keys(tasks);
+        if (taskIds.length === 0) {
+          dom.taskList.innerHTML =
+            '<div style="text-align:center; color:#aaa;">暂无任务</div>';
+          return;
+        }
+        for (let id of taskIds) {
+          const t = tasks[id];
+          const div = document.createElement("div");
+          div.className = "task-item";
+          let statusText = t.status;
+          let statusColor = "#f39c12";
+          if (t.status === "completed") statusColor = "#2ecc71";
+          if (t.status === "error") statusColor = "#e74c3c";
+          let progressMsg = "";
+          if (t.status === "pending")
+            progressMsg = `进度: ${t.progress}% | 速度: ${
+              t.speed ? t.speed.toFixed(2) + "%/s" : "计算中"
+            } | 剩余: ${
+              t.estimatedRemaining
+                ? t.estimatedRemaining.toFixed(0) + "秒"
+                : "未知"
+            }`;
+          else if (t.status === "completed") progressMsg = "已完成，点击下载";
+          else if (t.status === "error") progressMsg = "生成失败";
+          div.innerHTML = `<div class="task-header"><span style="flex:1">任务 ${id.slice(
+            0,
+            8
+          )}...</span><span class="task-status" style="background:${statusColor}">${statusText}</span></div><div class="task-progress-text">${progressMsg}</div>${
+            t.status === "completed"
+              ? `<button style="width:auto; padding:2px 8px; margin-top:4px;" onclick="downloadTask('${id}')">下载</button>`
+              : ""
+          }${
+            t.status === "error"
+              ? `<span style="color:#e74c3c;">错误</span>`
+              : ""
+          }`;
+          dom.taskList.appendChild(div);
+        }
+      }
+      window.downloadTask = function(taskId) {
+        const t = tasks[taskId];
+        if (t.outputUrl) {
+          const a = document.createElement("a");
+          a.href = t.outputUrl;
+          a.download = `video_${taskId}.mp4`;
+          a.click();
+        }
+      };
+      async function pollTask(taskId) {
+        let pollCount = 0,
+          maxPolls = 7200;
+        while (pollCount < maxPolls) {
+          await new Promise(r => setTimeout(r, 1000));
+          pollCount++;
+          try {
+            const progRes = await fetch(`/progress/${taskId}`);
+            if (progRes.ok) {
+              const prog = await progRes.json();
+              if (prog.status === "pending")
+                updateTask(taskId, {
+                  status: "pending",
+                  progress: prog.progress || 0
+                });
+              else if (prog.status === "error") {
+                updateTask(taskId, { status: "error" });
+                break;
+              }
+            }
+            const resultRes = await fetch(`/result/${taskId}`);
+            if (resultRes.ok) {
+              const blob = await resultRes.blob();
+              const url = URL.createObjectURL(blob);
+              updateTask(taskId, {
+                status: "completed",
+                outputUrl: url,
+                progress: 100
+              });
+              break;
+            } else if (resultRes.status === 404) continue;
+            else {
+              updateTask(taskId, { status: "error" });
+              break;
+            }
+          } catch (e) {
+            updateTask(taskId, { status: "error" });
+            break;
+          }
+        }
+        if (!tasks[taskId] || tasks[taskId].status !== "completed")
+          updateTask(taskId, { status: "error" });
+      }
+
+      // 生成视频
+      async function generateVideo(
+        promptOverride = null,
+        negativeOverride = null
+      ) {
+        const formData = new FormData();
+        formData.append(
+          "prompt",
+          promptOverride !== null ? promptOverride : dom.prompt.value
+        );
+        formData.append(
+          "negative",
+          negativeOverride !== null ? negativeOverride : dom.negative.value
+        );
+        formData.append("duration", parseFloat(dom.duration.value));
+        formData.append("fps", parseInt(dom.fps.value));
+        formData.append("cfg_scale", parseFloat(dom.cfg.value));
+        formData.append("steps", parseInt(dom.steps.value));
+        formData.append(
+          "style",
+          dom.style.value === "无" ? "" : dom.style.value
+        );
+        formData.append(
+          "camera",
+          dom.camera.value === "无" ? "" : dom.camera.value
+        );
+        formData.append("output_format", dom.outputFormat.value);
+        formData.append("watermark", dom.watermark.value);
+        formData.append("async_mode", "true");
+        let resolution = dom.resolution.value;
+        if (resolution === "custom")
+          resolution = `${dom.customWidth.value}x${dom.customHeight.value}`;
+        formData.append("resolution", resolution);
+        formData.append("ar_mode", dom.arMode.checked ? "true" : "false");
+        formData.append("use_memory", dom.useMemory.checked ? "true" : "false");
+        formData.append(
+          "distill_mode",
+          dom.distillMode.checked ? "true" : "false"
+        );
+        formData.append("use_raft", dom.useRaft.checked ? "true" : "false");
+        formData.append(
+          "use_routing",
+          dom.useRouting.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_compression",
+          dom.useCompression.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_pyramid",
+          dom.usePyramid.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_parallel_tile",
+          dom.useParallelTile.checked ? "true" : "false"
+        );
+        formData.append("tile_batch_size", dom.tileBatchSize.value);
+        formData.append(
+          "use_tensorrt",
+          dom.useTensorRT.checked ? "true" : "false"
+        );
+        formData.append("tensorrt_engine_path", dom.tensorrtEnginePath.value);
+        formData.append(
+          "physics_correct",
+          dom.physicsCorrect.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_learned_compressor",
+          dom.useLearnedComp.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_concatenated_history",
+          dom.useConcatHistory.checked ? "true" : "false"
+        );
+        formData.append(
+          "temporal_smooth",
+          dom.temporalSmooth.checked ? "true" : "false"
+        );
+        formData.append(
+          "interpolate",
+          dom.interpolate.checked ? "true" : "false"
+        );
+        formData.append("superres", dom.superres.checked ? "true" : "false");
+        formData.append("pretrained_path", dom.pretrainedPath.value);
+        formData.append(
+          "use_turboquant",
+          dom.useTurboquant.checked ? "true" : "false"
+        );
+        formData.append("model_type", dom.modelType.value);
+        formData.append("vae_path", dom.vaePath.value);
+        formData.append("text_encoder_path", dom.textEncoderPath.value);
+        formData.append("superres_model", dom.superresModel.value);
+        formData.append("superres_workers", dom.superresWorkers.value);
+        formData.append("refine_steps", dom.refineSteps.value);
+        formData.append(
+          "use_pipeline",
+          dom.usePipeline.checked ? "true" : "false"
+        ); // 新增流水线并行参数
+        if (dom.bgmUrl.value) formData.append("bgm_url", dom.bgmUrl.value);
+        if (dom.bgmFile.files.length)
+          formData.append("bgm_file", dom.bgmFile.files[0]);
+        for (let file of dom.refImages.files)
+          formData.append("reference_images", file);
+        for (let file of dom.refVideos.files)
+          formData.append("reference_videos", file);
+        for (let file of dom.audioFiles.files)
+          formData.append("audio_files", file);
+        if (dom.lensScript.files.length)
+          formData.append("lens_script", dom.lensScript.files[0]);
+        try {
+          const res = await fetch("/generate", {
+            method: "POST",
+            body: formData
+          });
+          if (!res.ok) throw new Error(await res.text());
+          const data = await res.json();
+          const taskId = data.task_id;
+          addTask(taskId);
+          return taskId;
+        } catch (err) {
+          alert("生成失败: " + err.message);
+          return null;
+        }
+      }
+
+      // 批量生成（修改为调用 /generate_batch）
+      dom.batchGenerateBtn.addEventListener("click", async () => {
+        const prompts = dom.batchPrompts.value
+          .split("\n")
+          .filter(p => p.trim());
+        if (prompts.length === 0) {
+          alert("请输入至少一个提示词");
+          return;
+        }
+        dom.batchGenerateBtn.disabled = true;
+        const formData = new FormData();
+        for (let p of prompts) {
+          formData.append("prompts", p.trim());
+        }
+        // 其他参数与单个生成一致
+        formData.append("negative", dom.negative.value);
+        formData.append("duration", dom.duration.value);
+        formData.append("fps", dom.fps.value);
+        formData.append("cfg_scale", dom.cfg.value);
+        formData.append("steps", dom.steps.value);
+        formData.append(
+          "style",
+          dom.style.value === "无" ? "" : dom.style.value
+        );
+        formData.append(
+          "camera",
+          dom.camera.value === "无" ? "" : dom.camera.value
+        );
+        formData.append("output_format", dom.outputFormat.value);
+        formData.append("watermark", dom.watermark.value);
+        let resolution = dom.resolution.value;
+        if (resolution === "custom")
+          resolution = `${dom.customWidth.value}x${dom.customHeight.value}`;
+        formData.append("resolution", resolution);
+        formData.append("ar_mode", dom.arMode.checked ? "true" : "false");
+        formData.append("use_memory", dom.useMemory.checked ? "true" : "false");
+        formData.append(
+          "distill_mode",
+          dom.distillMode.checked ? "true" : "false"
+        );
+        formData.append("use_raft", dom.useRaft.checked ? "true" : "false");
+        formData.append(
+          "use_routing",
+          dom.useRouting.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_compression",
+          dom.useCompression.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_pyramid",
+          dom.usePyramid.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_parallel_tile",
+          dom.useParallelTile.checked ? "true" : "false"
+        );
+        formData.append("tile_batch_size", dom.tileBatchSize.value);
+        formData.append(
+          "use_tensorrt",
+          dom.useTensorRT.checked ? "true" : "false"
+        );
+        formData.append("tensorrt_engine_path", dom.tensorrtEnginePath.value);
+        formData.append(
+          "physics_correct",
+          dom.physicsCorrect.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_learned_compressor",
+          dom.useLearnedComp.checked ? "true" : "false"
+        );
+        formData.append(
+          "use_concatenated_history",
+          dom.useConcatHistory.checked ? "true" : "false"
+        );
+        formData.append(
+          "temporal_smooth",
+          dom.temporalSmooth.checked ? "true" : "false"
+        );
+        formData.append(
+          "interpolate",
+          dom.interpolate.checked ? "true" : "false"
+        );
+        formData.append("superres", dom.superres.checked ? "true" : "false");
+        formData.append("pretrained_path", dom.pretrainedPath.value);
+        formData.append(
+          "use_turboquant",
+          dom.useTurboquant.checked ? "true" : "false"
+        );
+        formData.append("model_type", dom.modelType.value);
+        formData.append("vae_path", dom.vaePath.value);
+        formData.append("text_encoder_path", dom.textEncoderPath.value);
+        formData.append("superres_model", dom.superresModel.value);
+        formData.append("superres_workers", dom.superresWorkers.value);
+        formData.append("refine_steps", dom.refineSteps.value);
+        formData.append(
+          "use_pipeline",
+          dom.usePipeline.checked ? "true" : "false"
+        );
+        if (dom.bgmUrl.value) formData.append("bgm_url", dom.bgmUrl.value);
+        if (dom.bgmFile.files.length)
+          formData.append("bgm_file", dom.bgmFile.files[0]);
+        for (let file of dom.refImages.files)
+          formData.append("reference_images", file);
+        for (let file of dom.refVideos.files)
+          formData.append("reference_videos", file);
+        for (let file of dom.audioFiles.files)
+          formData.append("audio_files", file);
+        if (dom.lensScript.files.length)
+          formData.append("lens_script", dom.lensScript.files[0]);
+
+        try {
+          const res = await fetch("/generate_batch", {
+            method: "POST",
+            body: formData
+          });
+          if (!res.ok) throw new Error(await res.text());
+          const data = await res.json();
+          const taskIds = data.task_ids;
+          for (let id of taskIds) {
+            addTask(id);
+          }
+        } catch (err) {
+          alert("批量生成失败: " + err.message);
+        } finally {
+          dom.batchGenerateBtn.disabled = false;
+        }
+      });
+
+      // 主生成
+      dom.generateBtn.addEventListener("click", async () => {
+        dom.generateBtn.disabled = true;
+        dom.progressArea.style.display = "block";
+        dom.progressFill.style.width = "0%";
+        dom.progressText.innerText = "📤 提交任务...";
+        const taskId = await generateVideo();
+        if (taskId) {
+          let check = setInterval(async () => {
+            const resultRes = await fetch(`/result/${taskId}`);
+            if (resultRes.ok) {
+              const blob = await resultRes.blob();
+              const url = URL.createObjectURL(blob);
+              dom.outputVideo.src = url;
+              dom.progressFill.style.width = "100%";
+              dom.progressText.innerText = "✅ 生成完成！";
+              setTimeout(() => (dom.progressArea.style.display = "none"), 5000);
+              clearInterval(check);
+            } else if (resultRes.status !== 404) {
+              dom.progressText.innerText = "生成失败";
+              clearInterval(check);
+            }
+          }, 1000);
+        } else dom.progressArea.style.display = "none";
+        dom.generateBtn.disabled = false;
+      });
+
+      loadTasksFromStorage();
+    </script>
+  </body>
+</html>
